@@ -11,9 +11,9 @@ public class UserController {
     @GetMapping(value ={"/{username}", "/"})
     public String getStats(@PathVariable Optional<String> username) {
         if (username.isPresent()) {
-            return String.format("Your username is %s!", username);
+            return String.format("Your username is %s!", username.get());
         } else {
-            return "Please enter your username (ex: app.com/LeetCodeUsername)";
+            return "Please enter your username (ex: leetcode-stats-api.herokuapp.com/LeetCodeUsername)";
         }
     }
 }
