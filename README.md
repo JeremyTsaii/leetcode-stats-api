@@ -29,7 +29,8 @@ Invoke URL: https://leetcode-stats-api.herokuapp.com/{YOUR_USERNAME}
 Hitting the endpoint with your username returns the following statistics in the json response:
 ```
 {
-  "status": "",
+  "status": "success",
+  "message": "retrieved"
   "totalSolved": 360
   "easySolved": 146
   "totalEasy": 458
