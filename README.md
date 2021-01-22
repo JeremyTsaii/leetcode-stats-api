@@ -10,7 +10,7 @@
   <a href="https://leetcode-stats-api.herokuapp.com/">
     <img src="https://pyheroku-badge.herokuapp.com/?app=leetcode-stats-api"></a>
   <a href=https://travis-ci.com/JeremyTsaii/leetcode-stats-api>
-    <img src="https://travis-ci.com/JeremyTsaii/leetcode-stats-api.svg?branch=master"></a>
+    <img src="https://travis-ci.com/JeremyTsaii/leetcode-stats-api.svg?branch=main"></a>
   <a href=http://hits.dwyl.com/jeremytsaii/leetcode-stats-api>
     <img alt="HitCount" src=http://hits.dwyl.com/jeremytsaii/leetcode-stats-api.svg></a>
   <a href=https://github.com/dwyl/esta/issues>
