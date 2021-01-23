@@ -2,7 +2,11 @@ package leetcode.api;
 
 import org.springframework.stereotype.Service;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import okhttp3.Request;
 import okhttp3.OkHttpClient;
@@ -35,14 +39,78 @@ public class StatsServiceImpl implements StatsService {
 
             if (response.isSuccessful()) {
                 // Parse GraphQL response
-                return new StatsResponse("success", "retrieved", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+
+                // User not found
+                if (jsonObject.has("errors")) {
+                    return new StatsResponse("error", "user does not exist", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                } else { // Parse user info
+                    return decodeGraphqlJson(jsonObject);
+                }
             } else {
-                return new StatsResponse("error", jsonObject.getString("error"), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                return new StatsResponse("error", jsonObject.getString("error"), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
             }
-        } catch (IOException ex) {
-            return new StatsResponse("error", ex.getMessage(), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        } catch (IOException ex) { // Post request error
+            return new StatsResponse("error", ex.getMessage(), 0, 0,0,  0, 0, 0, 0, 0, 0, 0, 0, 0);
         } catch (JSONException ex) { // Query serialization error
-            return new StatsResponse("error", ex.getMessage(), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            return new StatsResponse("error", ex.getMessage(), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         }
+    }
+
+    private StatsResponse decodeGraphqlJson(JSONObject json) {
+        int totalSolved = 0;
+        int totalQuestions = 0;
+        int easySolved = 0;
+        int totalEasy = 0;
+        int mediumSolved = 0;
+        int totalMedium = 0;
+        int hardSolved = 0;
+        int totalHard = 0;
+        float acceptanceRate = 0;
+        int ranking = 0;
+        int contributionPoints = 0;
+        int reputation = 0;
+
+        try {
+            JSONObject data = json.getJSONObject("data");
+            JSONArray allQuestions = data.getJSONArray("allQuestionsCount");
+            JSONObject matchedUser = data.getJSONObject("matchedUser");
+            JSONObject submitStats = matchedUser.getJSONObject("submitStats");
+            JSONArray actualSubmissions = submitStats.getJSONArray("acSubmissionNum");
+            JSONArray totalSubmissions = submitStats.getJSONArray("totalSubmissionNum");
+
+            // Fill in total counts
+            totalQuestions = allQuestions.getJSONObject(0).getInt("count");
+            totalEasy = allQuestions.getJSONObject(1).getInt("count");
+            totalMedium = allQuestions.getJSONObject(2).getInt("count");
+            totalHard = allQuestions.getJSONObject(3).getInt("count");
+
+            // Fill in solved counts
+            totalSolved = actualSubmissions.getJSONObject(0).getInt("count");
+            easySolved = actualSubmissions.getJSONObject(1).getInt("count");
+            mediumSolved = actualSubmissions.getJSONObject(2).getInt("count");
+            hardSolved = actualSubmissions.getJSONObject(3).getInt("count");
+
+            // Fill in etc
+            float totalAcceptCount = actualSubmissions.getJSONObject(0).getInt("submissions");
+            float totalSubCount = totalSubmissions.getJSONObject(0).getInt("submissions");
+            if (totalSubCount != 0) {
+                acceptanceRate = round((totalAcceptCount / totalSubCount) * 100, 2);
+            }
+
+            contributionPoints = matchedUser.getJSONObject("contributions").getInt("points");
+            reputation = matchedUser.getJSONObject("profile").getInt("reputation");
+            ranking = matchedUser.getJSONObject("profile").getInt("ranking");
+
+        } catch (JSONException ex) {
+            return new StatsResponse("error", ex.getMessage(), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        }
+
+        return new StatsResponse("success", "retrieved", totalSolved, totalQuestions, easySolved, totalEasy, mediumSolved, totalMedium, hardSolved, totalHard, acceptanceRate, ranking, contributionPoints, reputation);
+    }
+
+    private float round(float d, int decimalPlace) {
+        BigDecimal bd = new BigDecimal(Float.toString(d));
+        bd = bd.setScale(decimalPlace, RoundingMode.HALF_UP);
+        return bd.floatValue();
     }
 }

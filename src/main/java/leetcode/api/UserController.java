@@ -18,7 +18,7 @@ public class UserController {
         } else {
             String status = "error";
             String msg = "please enter your username (ex: leetcode-stats-api.herokuapp.com/LeetCodeUsername)";
-            return new StatsResponse(status, msg, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            return new StatsResponse(status, msg, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         }
     }
 }

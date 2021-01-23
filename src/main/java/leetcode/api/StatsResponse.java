@@ -4,6 +4,7 @@ public class StatsResponse {
     private final String status;
     private final String message;
     private final int totalSolved;
+    private final int totalQuestions;
     private final int easySolved;
     private final int totalEasy;
     private final int mediumSolved;
@@ -15,10 +16,11 @@ public class StatsResponse {
     private final int contributionPoints;
     private final int reputation;
 
-    public StatsResponse(String status, String message, int totalSolved, int easySolved, int totalEasy, int mediumSolved, int totalMedium, int hardSolved, int totalHard, float acceptanceRate, int ranking, int contributionPoints, int reputation) {
+    public StatsResponse(String status, String message, int totalSolved, int totalQuestions, int easySolved, int totalEasy, int mediumSolved, int totalMedium, int hardSolved, int totalHard, float acceptanceRate, int ranking, int contributionPoints, int reputation) {
         this.status = status;
         this.message = message;
         this.totalSolved = totalSolved;
+        this.totalQuestions = totalQuestions;
         this.easySolved = easySolved;
         this.totalEasy = totalEasy;
         this.mediumSolved = mediumSolved;
@@ -42,6 +44,8 @@ public class StatsResponse {
     public int getTotalSolved() {
         return totalSolved;
     }
+
+    public int getTotalQuestions() { return totalQuestions; }
 
     public int getEasySolved() {
         return easySolved;
