@@ -1,4 +1,4 @@
-package leetcode.api;
+package leetcode.api.model;
 
 public class StatsResponse {
     private final String status;

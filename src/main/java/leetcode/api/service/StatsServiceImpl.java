@@ -1,5 +1,6 @@
-package leetcode.api;
+package leetcode.api.service;
 
+import leetcode.api.model.StatsResponse;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.math.BigDecimal;

@@ -1,8 +1,7 @@
-package leetcode.api;
+package leetcode.api.service;
 
-import org.springframework.stereotype.Service;
+import leetcode.api.model.StatsResponse;
 
-@Service
 public interface StatsService {
     StatsResponse getStats(String username);
 }

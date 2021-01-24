@@ -1,5 +1,7 @@
-package leetcode.api;
+package leetcode.api.controller;
 
+import leetcode.api.model.StatsResponse;
+import leetcode.api.service.StatsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,7 +11,7 @@ import java.util.Optional;
 @RestController
 public class UserController {
     @Autowired
-    StatsService statsService;
+    private StatsService statsService;
 
     @GetMapping(value ={"/{username}", "/"})
     public StatsResponse getStats(@PathVariable Optional<String> username) {
