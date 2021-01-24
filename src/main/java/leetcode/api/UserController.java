@@ -9,7 +9,7 @@ import java.util.Optional;
 @RestController
 public class UserController {
     @Autowired
-    StatsServiceImpl statsService;
+    StatsService statsService;
 
     @GetMapping(value ={"/{username}", "/"})
     public StatsResponse getStats(@PathVariable Optional<String> username) {
