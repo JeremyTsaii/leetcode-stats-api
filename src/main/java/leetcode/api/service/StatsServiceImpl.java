@@ -6,9 +6,10 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import org.springframework.boot.configurationprocessor.json.JSONObject;
-import org.springframework.boot.configurationprocessor.json.JSONArray;
-import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.json.JSONException;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import okhttp3.Request;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
@@ -50,11 +51,10 @@ public class StatsServiceImpl implements StatsService {
             } else {
                 return new StatsResponse("error", jsonObject.getString("error"), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
             }
-        } catch (IOException ex) { // Post request error
+        } catch (IOException | JSONException ex) {
             return new StatsResponse("error", ex.getMessage(), 0, 0,0,  0, 0, 0, 0, 0, 0, 0, 0, 0);
-        } catch (JSONException ex) { // Query serialization error
-            return new StatsResponse("error", ex.getMessage(), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         }
+
     }
 
     private StatsResponse decodeGraphqlJson(JSONObject json) {

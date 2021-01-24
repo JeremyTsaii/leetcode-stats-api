@@ -46,3 +46,20 @@ Hitting the endpoint with your username returns the following statistics in the 
 }
 ```
 
+## What is the development workflow?
+
+First clone the repository onto your local machine.
+
+Maven must be installed to run the following commands.
+
+#### `mvn package`
+
+Builds the project (while also running all of the tests).
+
+#### `mvn spring-boot:run`
+
+Serves the Tomcat servlet container on http://localhost:8080.
+
+#### `mvn -Dtest=leetcode.api.*Tests test`
+
+Runs all the tests.

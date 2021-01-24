@@ -3,6 +3,7 @@ package leetcode.api;
 import leetcode.api.controller.UserController;
 import leetcode.api.model.StatsResponse;
 import leetcode.api.service.StatsService;
+import leetcode.api.service.StatsServiceImpl;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
