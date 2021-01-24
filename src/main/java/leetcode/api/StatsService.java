@@ -1,5 +1,8 @@
 package leetcode.api;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public interface StatsService {
-    public abstract StatsResponse getStats(String username);
+    StatsResponse getStats(String username);
 }
