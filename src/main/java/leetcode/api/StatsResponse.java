@@ -86,4 +86,13 @@ public class StatsResponse {
     public int getReputation() {
         return reputation;
     }
+
+    public boolean equals(StatsResponse s) {
+        // Compared with itself
+        if (s == this) {
+            return true;
+        }
+
+        return status.equals(s.getStatus()) && message.equals(s.getMessage()) && totalSolved == s.getTotalSolved() && totalQuestions == s.getTotalQuestions() && easySolved == s.getEasySolved() && totalEasy == s.getTotalEasy() && mediumSolved == s.getMediumSolved() && totalMedium == s.getTotalMedium() && hardSolved == s.getHardSolved() && totalHard == s.getTotalHard() && acceptanceRate == s.getAcceptanceRate() && ranking == s.getRanking() && contributionPoints == s.getContributionPoints() && reputation == s.getReputation();
+    }
 }
