@@ -21,9 +21,11 @@
 
 ***
 
+Frontend Repo is [here](https://github.com/JeremyTsaii/leetcode-stats). Create aesthetic displays from this information!
+
 ### REST API Endpoint
 
-Invoke URL: https://leetcode-stats-api.herokuapp.com/{YOUR_USERNAME}
+Invoke URL: `https://leetcode-stats-api.herokuapp.com/<YOUR_USERNAME>`
 
 #### GET:
 Hitting the endpoint with your username returns the following statistics in the json response:
