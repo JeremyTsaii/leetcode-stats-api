@@ -11,6 +11,10 @@
     <img src="https://pyheroku-badge.herokuapp.com/?app=leetcode-stats-api"></a>
   <a href=https://travis-ci.com/JeremyTsaii/leetcode-stats-api>
     <img src="https://travis-ci.com/JeremyTsaii/leetcode-stats-api.svg?branch=main"></a>
+  <a href="https://codecov.io/gh/JeremyTsaii/leetcode-stats-api">
+    <img src="https://codecov.io/gh/JeremyTsaii/leetcode-stats-api/branch/main/graph/badge.svg?token=18BZG2Q3TT"></a>
+  <a href="https://codeclimate.com/github/JeremyTsaii/leetcode-stats-api/maintainability">
+    <img src="https://api.codeclimate.com/v1/badges/bf4637f9d193e3159e86/maintainability" /></a>
   <a href=http://hits.dwyl.com/jeremytsaii/leetcode-stats-api>
     <img alt="HitCount" src=http://hits.dwyl.com/jeremytsaii/leetcode-stats-api.svg></a>
   <a href=https://github.com/dwyl/esta/issues>
