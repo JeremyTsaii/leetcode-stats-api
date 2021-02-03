@@ -1,5 +1,8 @@
 package leetcode.api.model;
 
+import java.util.Collections;
+import java.util.Map;
+
 public class StatsResponse {
     private final String status;
     private final String message;
@@ -15,8 +18,9 @@ public class StatsResponse {
     private final int ranking;
     private final int contributionPoints;
     private final int reputation;
+    private final Map<String, Integer> submissionCalendar;
 
-    public StatsResponse(String status, String message, int totalSolved, int totalQuestions, int easySolved, int totalEasy, int mediumSolved, int totalMedium, int hardSolved, int totalHard, float acceptanceRate, int ranking, int contributionPoints, int reputation) {
+    public StatsResponse(String status, String message, int totalSolved, int totalQuestions, int easySolved, int totalEasy, int mediumSolved, int totalMedium, int hardSolved, int totalHard, float acceptanceRate, int ranking, int contributionPoints, int reputation, Map<String, Integer> submissionCalendar) {
         this.status = status;
         this.message = message;
         this.totalSolved = totalSolved;
@@ -31,6 +35,11 @@ public class StatsResponse {
         this.ranking = ranking;
         this.contributionPoints = contributionPoints;
         this.reputation = reputation;
+        this.submissionCalendar = submissionCalendar;
+    }
+
+    public static StatsResponse error(String status, String message) {
+        return new StatsResponse(status, message, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, Collections.emptyMap());
     }
 
     public String getStatus() {
@@ -85,6 +94,10 @@ public class StatsResponse {
 
     public int getReputation() {
         return reputation;
+    }
+
+    public Map<String, Integer> getSubmissionCalendar() {
+        return submissionCalendar;
     }
 
     public boolean equals(StatsResponse s) {

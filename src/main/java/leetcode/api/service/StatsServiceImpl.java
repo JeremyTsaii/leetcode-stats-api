@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.json.JSONException;
 import org.json.JSONArray;
@@ -23,7 +25,7 @@ public class StatsServiceImpl implements StatsService {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         MediaType mediaType = MediaType.parse("application/json");
-        String query = String.format("{\"query\":\"query getUserProfile($username: String!) { allQuestionsCount { difficulty count } matchedUser(username: $username) { contributions { points } profile { reputation ranking } submitStats { acSubmissionNum { difficulty count submissions } totalSubmissionNum { difficulty count submissions } } } } \",\"variables\":{\"username\":\"%s\"}}", username);
+        String query = String.format("{\"query\":\"query getUserProfile($username: String!) { allQuestionsCount { difficulty count } matchedUser(username: $username) { contributions { points } profile { reputation ranking } submissionCalendar submitStats { acSubmissionNum { difficulty count submissions } totalSubmissionNum { difficulty count submissions } } } } \",\"variables\":{\"username\":\"%s\"}}", username);
         RequestBody body = RequestBody.create(mediaType, query);
         Request request = new Request.Builder()
                 .url("https://leetcode.com/graphql/")
@@ -44,15 +46,15 @@ public class StatsServiceImpl implements StatsService {
 
                 // User not found
                 if (jsonObject.has("errors")) {
-                    return new StatsResponse("error", "user does not exist", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                    return StatsResponse.error("error", "user does not exist");
                 } else { // Parse user info
                     return decodeGraphqlJson(jsonObject);
                 }
             } else {
-                return new StatsResponse("error", jsonObject.getString("error"), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                return StatsResponse.error("error", jsonObject.getString("error"));
             }
         } catch (IOException | JSONException ex) {
-            return new StatsResponse("error", ex.getMessage(), 0, 0,0,  0, 0, 0, 0, 0, 0, 0, 0, 0);
+            return StatsResponse.error("error", ex.getMessage());
         }
 
     }
@@ -70,6 +72,8 @@ public class StatsServiceImpl implements StatsService {
         int ranking = 0;
         int contributionPoints = 0;
         int reputation = 0;
+
+        final Map<String, Integer> submissionCalendar = new TreeMap<>();
 
         try {
             JSONObject data = json.getJSONObject("data");
@@ -102,11 +106,17 @@ public class StatsServiceImpl implements StatsService {
             reputation = matchedUser.getJSONObject("profile").getInt("reputation");
             ranking = matchedUser.getJSONObject("profile").getInt("ranking");
 
+            final JSONObject submissionCalendarJson = new JSONObject(matchedUser.getString("submissionCalendar"));
+
+            for (String timeKey: submissionCalendarJson.keySet()) {
+                submissionCalendar.put(timeKey, submissionCalendarJson.getInt(timeKey));
+            }
+
         } catch (JSONException ex) {
-            return new StatsResponse("error", ex.getMessage(), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            return StatsResponse.error("error", ex.getMessage());
         }
 
-        return new StatsResponse("success", "retrieved", totalSolved, totalQuestions, easySolved, totalEasy, mediumSolved, totalMedium, hardSolved, totalHard, acceptanceRate, ranking, contributionPoints, reputation);
+        return new StatsResponse("success", "retrieved", totalSolved, totalQuestions, easySolved, totalEasy, mediumSolved, totalMedium, hardSolved, totalHard, acceptanceRate, ranking, contributionPoints, reputation, submissionCalendar);
     }
 
     private float round(float d, int decimalPlace) {

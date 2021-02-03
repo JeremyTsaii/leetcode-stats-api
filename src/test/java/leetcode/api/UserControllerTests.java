@@ -15,6 +15,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @WebMvcTest(UserController.class)
 public class UserControllerTests {
     @Autowired
@@ -26,12 +29,14 @@ public class UserControllerTests {
 
     @Test
     void validUsername() throws Exception {
-        StatsResponse mockResponse = new StatsResponse("success", "retrieved", 1, 2,3, 4, 5, 6, 7, 8, (float) 99.99, 10, 11, 12);
+        final Map<String, Integer> submissionCalendar = new HashMap<>();
+        submissionCalendar.put("1610755200", 2);
+        StatsResponse mockResponse = new StatsResponse("success", "retrieved", 1, 2,3, 4, 5, 6, 7, 8, (float) 99.99, 10, 11, 12, submissionCalendar);
         when(service.getStats("user_exists")).thenReturn(mockResponse);
 
         MvcResult result = mockMvc.perform(get("/user_exists")).andExpect(status().isOk()).andReturn();
         String resultStr = result.getResponse().getContentAsString();
-        String expected = "{\"status\":\"success\",\"message\":\"retrieved\",\"totalSolved\":1,\"totalQuestions\":2,\"easySolved\":3,\"totalEasy\":4,\"mediumSolved\":5,\"totalMedium\":6,\"hardSolved\":7,\"totalHard\":8,\"acceptanceRate\":99.99,\"ranking\":10,\"contributionPoints\":11,\"reputation\":12}";
+        String expected = "{\"status\":\"success\",\"message\":\"retrieved\",\"totalSolved\":1,\"totalQuestions\":2,\"easySolved\":3,\"totalEasy\":4,\"mediumSolved\":5,\"totalMedium\":6,\"hardSolved\":7,\"totalHard\":8,\"acceptanceRate\":99.99,\"ranking\":10,\"contributionPoints\":11,\"reputation\":12,\"submissionCalendar\":{\"1610755200\":2}}";
         assertEquals(resultStr, expected);
     }
 
@@ -39,18 +44,18 @@ public class UserControllerTests {
     void noUsername() throws Exception {
         MvcResult result = mockMvc.perform(get("/")).andExpect(status().isOk()).andReturn();
         String resultStr = result.getResponse().getContentAsString();
-        String expected = "{\"status\":\"error\",\"message\":\"please enter your username (ex: leetcode-stats-api.herokuapp.com/LeetCodeUsername)\",\"totalSolved\":0,\"totalQuestions\":0,\"easySolved\":0,\"totalEasy\":0,\"mediumSolved\":0,\"totalMedium\":0,\"hardSolved\":0,\"totalHard\":0,\"acceptanceRate\":0.0,\"ranking\":0,\"contributionPoints\":0,\"reputation\":0}";
+        String expected = "{\"status\":\"error\",\"message\":\"please enter your username (ex: leetcode-stats-api.herokuapp.com/LeetCodeUsername)\",\"totalSolved\":0,\"totalQuestions\":0,\"easySolved\":0,\"totalEasy\":0,\"mediumSolved\":0,\"totalMedium\":0,\"hardSolved\":0,\"totalHard\":0,\"acceptanceRate\":0.0,\"ranking\":0,\"contributionPoints\":0,\"reputation\":0,\"submissionCalendar\":{}}";
         assertEquals(resultStr, expected);
     }
 
     @Test
     void nonValidUsername() throws Exception {
-        StatsResponse mockResponse = new StatsResponse("error", "user does not exist", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        StatsResponse mockResponse = StatsResponse.error("error", "user does not exist");
         when(service.getStats("user_does_not_exist")).thenReturn(mockResponse);
 
         MvcResult result = mockMvc.perform(get("/user_does_not_exist")).andExpect(status().isOk()).andReturn();
         String resultStr = result.getResponse().getContentAsString();
-        String expected = "{\"status\":\"error\",\"message\":\"user does not exist\",\"totalSolved\":0,\"totalQuestions\":0,\"easySolved\":0,\"totalEasy\":0,\"mediumSolved\":0,\"totalMedium\":0,\"hardSolved\":0,\"totalHard\":0,\"acceptanceRate\":0.0,\"ranking\":0,\"contributionPoints\":0,\"reputation\":0}";
+        String expected = "{\"status\":\"error\",\"message\":\"user does not exist\",\"totalSolved\":0,\"totalQuestions\":0,\"easySolved\":0,\"totalEasy\":0,\"mediumSolved\":0,\"totalMedium\":0,\"hardSolved\":0,\"totalHard\":0,\"acceptanceRate\":0.0,\"ranking\":0,\"contributionPoints\":0,\"reputation\":0,\"submissionCalendar\":{}}";
         assertEquals(resultStr, expected);
     }
 }
