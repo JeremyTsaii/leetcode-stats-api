@@ -44,7 +44,8 @@ Hitting the endpoint with your username returns the following statistics in the 
   "acceptanceRate": 50.92,
   "ranking": 47657,
   "contributionPoints": 2534,
-  "reputation": 1
+  "reputation": 1,
+  "submissionCalendar": {}
 }
 ```
 
