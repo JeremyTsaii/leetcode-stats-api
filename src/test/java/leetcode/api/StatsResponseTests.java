@@ -6,9 +6,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @SpringBootTest
 public class StatsResponseTests {
-    StatsResponse s = new StatsResponse("success", "retrieved", 1, 2, 3, 4, 5, 6, 7, 8, (float) 99.99, 10, 11, 12);
+    final Map<String, Integer> submissionCalendar = new HashMap<>();
+
+    {
+        submissionCalendar.put("1610755200", 2);
+    }
+
+    StatsResponse s = new StatsResponse("success", "retrieved", 1, 2, 3, 4, 5, 6, 7, 8, (float) 99.99, 10, 11, 12, submissionCalendar);
 
     @Test
     void statusCorrect() {
@@ -86,8 +95,13 @@ public class StatsResponseTests {
     }
 
     @Test
+    void submissionCalendarCorrect() {
+        assertEquals(submissionCalendar, s.getSubmissionCalendar());
+    }
+
+    @Test
     void sameValEqualCorrect() {
-        StatsResponse copy = new StatsResponse("success", "retrieved", 1, 2, 3, 4, 5, 6, 7, 8, (float) 99.99, 10, 11, 12);
+        StatsResponse copy = new StatsResponse("success", "retrieved", 1, 2, 3, 4, 5, 6, 7, 8, (float) 99.99, 10, 11, 12, submissionCalendar);
         assertTrue(s.equals(copy));
     }
 }
