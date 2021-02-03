@@ -15,6 +15,7 @@
     <img src="https://codecov.io/gh/JeremyTsaii/leetcode-stats-api/branch/main/graph/badge.svg?token=18BZG2Q3TT"></a>
   <a href="https://codeclimate.com/github/JeremyTsaii/leetcode-stats-api/maintainability">
     <img src="https://api.codeclimate.com/v1/badges/bf4637f9d193e3159e86/maintainability" /></a>
+  </br>
   <a href=http://hits.dwyl.com/jeremytsaii/leetcode-stats-api>
     <img alt="HitCount" src=http://hits.dwyl.com/jeremytsaii/leetcode-stats-api.svg></a>
   <a href=https://github.com/dwyl/esta/issues>
